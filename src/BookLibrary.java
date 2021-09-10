@@ -17,11 +17,11 @@ public class BookLibrary {
 		Scanner input = new Scanner(System.in);
 		int number = input.nextInt();
 		arr = new String[number][2];
-		String n;
+		Scanner sc = new Scanner(System.in);
 		for (int i = 0; i < number; i++) {
 			System.out.print((i + 1) + ".");
-			n = input.next();
-			arr[i][0] = n;
+			arr[i][0]  = sc.nextLine();
+			
 		}
 		System.out.println("Books added successfully...");
 		// input.close();
