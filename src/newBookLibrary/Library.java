@@ -117,7 +117,8 @@ public class Library {
 					System.out.println("Invalid Issuer");
 					issueBook();
 				}
-				else 
+				
+				else if(Book.issueCount == Book.returnCount)
 				{
 					Members m = members.get(index1);
 					
@@ -131,9 +132,19 @@ public class Library {
 					
 					System.out.println("book "+b.bname+" Successfully issued to "+b.issuer);
 					
+					
+				}
+				else 	
+				{	
+					System.out.println("Book not Available");
+					issueBook();
 				}
 				
 			}							
+	}
+	public void returnBook()
+	{
+		
 	}
 		
 	public static void main(String args[])
@@ -141,12 +152,14 @@ public class Library {
 		Library lib = new Library();
 		lib.initializeLibrary();
 		lib.addMembers();
-		lib.addMembers();
-//		lib.bookShelf();
+//		lib.addMembers();
+		lib.showMembers();
+		lib.bookShelf();
 		lib.issueBook();
 		lib.bookShelf();		
-//		lib.showMembers();
 		
-//		lib.showMembers();
 	}
+
+//		lib.showMembers();
+	
 }

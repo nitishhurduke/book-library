@@ -1,7 +1,5 @@
 package newBookLibrary;
 
-import java.util.ArrayList;
-
 public class Members {
 	
 	static int mId = 1;
