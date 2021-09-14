@@ -77,8 +77,8 @@ public class Library {
 		int i = 1;
 		for(Book b : books) 
 		{	
-			if(b.issuer != null) {
-			System.out.println(i+". "+b.bname+" "+b.issuer);
+			if(b.issuer != null) { //Add Condition to fetch issue history
+			System.out.println(i+". "+b.bname+" "+b.issuer+" "+b.issueHistory.get(b.issueHistory.size() -1));
 			
 			}else{
 				System.out.println(i+". "+b.bname);
@@ -118,21 +118,19 @@ public class Library {
 					issueBook();
 				}
 				
-				else if(Book.issueCount == Book.returnCount)
+				else if(b.issueHistory.size() == b.returnHistory.size())
 				{
 					Members m = members.get(index1);
 					
 					b.issuer = m.mname;
 					
+					System.out.println("Enter date :");
 					Date currentDate = new Date();
-	
-					String date = DateFormat.getInstance().format(currentDate);				
-					
+					String date = DateFormat.getInstance().format(currentDate);
 					b.issueHistory(date);
 					
 					System.out.println("book "+b.bname+" Successfully issued to "+b.issuer);
-					
-					
+										
 				}
 				else 	
 				{	
