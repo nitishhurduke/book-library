@@ -7,94 +7,88 @@ import java.util.Date;
 import java.text.DateFormat;
 
 public class Library {
-	
-	
+
 	ArrayList<Book> books = new ArrayList<Book>();
 	List<String> bookList = new ArrayList<String>();
 	ArrayList<Members> members = new ArrayList<Members>();
 	List<String> membersList = new ArrayList<String>();
-	
+	Scanner sc = new Scanner(System.in);
 
-	public void initializeLibrary(Library l) {
-		System.out.println("How many books do you want to add initialy");
-		Scanner sc = new Scanner(System.in);
-		int total = sc.nextInt();
-		addBook(total,l);		
-	}
-
-	public void addBook(int total,Library l) {
-		System.out.println("Add Books");
-		Scanner bin =new Scanner(System.in);
+	public void initializeLibrary() {
+		System.out.println("How many books do you want to add initially");
 		
-		for(int i = 0 ; i< total; i++ )
-		{	
-			Book b = new Book();
-			System.out.print((i+1)+". ");
-			b.bname = bin.nextLine(); 
-			books.add(b);
-			bookList.add(b.bname);
-			 		 	
-		}
-		 System.out.println("Books added Successfully...");
-		 System.out.println("Enter '1' to Add another book or '0'to Main Menu");
-		 int input = bin.nextInt();
-		 switch(input)
-		 {
-		 case 1: 
-			 	addBook(l);
-			 	break;
-		 case 0:
-			 
-			 	l.mainMenu(l);
-			 	break;
-		 }
+		int total = sc.nextInt();
+		addBook(total);
 	}
 
-	public void addBook(Library l) {
-
-		Scanner sc = new Scanner(System.in);
+	public void addBook(int total) {
+		System.out.println("Add Books");
 		Scanner bin = new Scanner(System.in);
-		
-		System.out.println("Add Books");
-		System.out.println("How Many Books do you want to add : ");
-		int total = sc.nextInt();
-	
-		for (int i = 0; i < total; i++) 
-		{
+
+		for (int i = 0; i < total; i++) {
 			Book b = new Book();
 			System.out.print((i + 1) + ". ");
 			b.bname = bin.nextLine();
 			books.add(b);
 			bookList.add(b.bname);
-					
+
 		}
-		 System.out.println("Books added Successfully...");
-		 System.out.println("Enter '1' to Add another book or '0'to Main Menu");
-		 int input = bin.nextInt();
-		 switch(input)
-		 {
-		 case 1: 
-			 	addBook(l);
-			 	break;
-		 case 0:
-			 	
-			 	l.mainMenu(l);
-			 	break;
-		 }
-		
-		
+		System.out.println("Books added Successfully...");
+		System.out.println("Enter '1' to Add more books or '0'to Main Menu");
+		int input = sc.nextInt();
+		switch (input) {
+		case 1:
+			addBook();
+			break;
+		case 0:
+
+			mainMenu();
+			break;
+		}
 	}
 
-	public void addMembers(Library l) {
+	public void addBook() {
+
+		
+		Scanner bin = new Scanner(System.in);
+
+		System.out.println("Add Books");
+		System.out.println("How Many Books do you want to add : ");
+		int total = sc.nextInt();
+
+		for (int i = 0; i < total; i++) {
+			Book b = new Book();
+			System.out.print((i + 1) + ". ");
+			b.bname = bin.nextLine();
+			books.add(b);
+			bookList.add(b.bname);
+
+		}
+		System.out.println("Books added Successfully...");
+		System.out.println("Enter '1' to Add more books or '0'to Main Menu");
+		int input = sc.nextInt();
+		switch (input) {
+		case 1:
+			addBook();
+			break;
+		case 0:
+
+			mainMenu();
+			break;
+		}
+
+	}
+
+	public void addMembers() {
 		Members member = new Members(); // Object member of Members class
 
-		Scanner sc = new Scanner(System.in);
+		Scanner s = new Scanner(System.in);
 		Scanner ad = new Scanner(System.in);
 
 		System.out.println("  *New Member Registration Form* ");
 		member.mId += 1;
 		System.out.print("Enter Name :");
-		member.mname = sc.nextLine();
+		member.mname = s.nextLine();
 		System.out.print("Enter Mobile number: ");
 		member.mob = sc.nextLong();
 		System.out.print("Enter Email Address : ");
@@ -104,66 +98,77 @@ public class Library {
 
 		members.add(member); // Adding member object to members ArrayList
 		membersList.add(member.mname);
-		
 
 		System.out.println("Member Successfully Added...");
-		System.out.println(); 
+		System.out.println();
 		System.out.println("Enter '1' to Add another member or '0'to Main Menu");
-		 int input = sc.nextInt();
-		 switch(input)
-		 {
-		 case 1: 
-			 	addMembers(l);
-			 	break;
-		 case 0:
-			 
-			 	l.mainMenu(l);
-			 	break;
-		 }
+		int input = sc.nextInt();
+		switch (input) {
+		case 1:
+			addMembers();
+			break;
+		case 0:
+
+			mainMenu();
+			break;
+		}
 
 	}
 
-	public void showMembers(Library l) {
+	public void showMembers() {
 		System.out.println("Id  |  Name  |  mobile no  |  Addhaar no  |  Address ");
 		for (Members m : members) {
 			System.out.println(m.id + " | " + m.mname + " | " + m.mob + " | " + m.adhar + " | " + m.address);
-			
+
 		}
-		
-		l.subMenu(l);
+
+		subMenu();
 
 	}
 
-	public void bookShelf(Library l) {
-		
+	public void bookShelf() {
+
 		int i = 1;
 		for (Book b : books) {
-			System.out.println(i + ". " +b.bname);
+			System.out.println(i + ". " + b.bname);
 			i++;
 		}
-		l.subMenu(l);
+		subMenu();
 	}
-	
-	public void issueBook(Library l) {
+
+	public void issueBook() {
 
 		System.out.print("Please enter book name :");
-		Scanner sc = new Scanner(System.in);
-		String bname = sc.nextLine();
-		int index = bookList.indexOf(bname);
-		if (index == -1) {
+		Scanner s = new Scanner(System.in);
+		String bname = s.nextLine();//Taking Book Name
+		int index = bookList.indexOf(bname);//getting Index of book in bookList
+		if (index == -1) {//-1 indicates book is not available
 			System.out.println("Invalid Book");
-			issueBook(l);
+			issueBook();
 		} else {
 			Book b = books.get(index);
 
 			System.out.print("Enter Issuers Name :");
-			Scanner sc1 = new Scanner(System.in);
-			String issuer = sc1.nextLine();
+			Scanner s1 = new Scanner(System.in);
+			String issuer = s1.nextLine();//Getting Issuers name
 
-			int index1 = membersList.indexOf(issuer);
-			if (index1 == -1) {
-				System.out.println("Invalid Issuer");
-				issueBook(l);
+			int index1 = membersList.indexOf(issuer);//Checking if issuer a listed member
+			if (index1 == -1) {//-1 indicates issuer not a member
+				System.out.println("\nNo registered member found with name '"+issuer+"'");
+				System.out.println("\nEnter '1' to Register New Member or'2' to Continue Issue '0' to Main Menu");
+				int in = sc.nextInt();
+				switch(in) {
+				case 1: 
+					addMembers();
+					break;
+				case 2: 
+					issueBook();
+					break;
+				case 0:
+					System.exit(0);
+					break;
+				}
+				
 			}
 
 			else if (b.issueHistory.size() == b.returnHistory.size()) {
@@ -171,7 +176,7 @@ public class Library {
 
 				b.issuer = m.mname;
 
-				System.out.println("Enter date :");
+				
 				Date currentDate = new Date();
 				String date = DateFormat.getInstance().format(currentDate);
 				b.issueHistory(date);
@@ -180,19 +185,19 @@ public class Library {
 
 			} else {
 				System.out.println("Book not Available");
-				issueBook(l);
+				issueBook();
 			}
 
 		}
-		
-		l.subMenu(l);
+
+		subMenu();
 	}
 
 	public void returnBook() {
 
 	}
 
-	public void mainMenu(Library l) {
+	public void mainMenu() {
 		System.out.println("Choose following operation : ");
 		System.out.println("1.Show BookShelf of Library");
 		System.out.println("2.Show All Registerd Members");
@@ -204,70 +209,67 @@ public class Library {
 		System.out.println("8.Delete Members");
 		System.out.println("9.Exit");
 
-		Scanner sc = new Scanner(System.in);
 		int input = sc.nextInt();
-
-	
 
 		switch (input) {
 
 		case 1:
-			l.bookShelf(l);
+			bookShelf();
 			break;
 		case 2:
-			l.showMembers(l);
+			showMembers();
 			break;
 		case 3:
-			l.issueBook(l);
+			issueBook();
 			break;
 		case 4:
-			l.returnBook();
+			returnBook();
 			break;
 		case 5:
-			l.addBook(l);
+			addBook();
 			break;
 		case 6:
-			l.addMembers(l);
+			addMembers();
 			break;
 		case 7:
-			l.deleteBook();
+			deleteBook();
 			break;
-		case 8: 
-			l.deleteMember();
+		case 8:
+			deleteMember();
 			break;
 		case 9:
 			System.exit(0);
-			break;					
+			break;
 		}
-		
+
 	}
-	public void deleteBook()
-	{
-		
-		
+
+	public void deleteBook() {
+
 	}
-	public void deleteMember()
-	{
-		
+
+	public void deleteMember() {
+
 	}
-	public void subMenu(Library l)
-	{
-		Scanner sc =new Scanner(System.in);
+
+	public void subMenu() {
+	
 		System.out.println("Enter '1' for 'Main Menu'Or '0' for 'Exit' ");
 		int input = sc.nextInt();
-		
-		switch(input)
-		{
-			case 1:l.mainMenu(l);
-					break;
-			case 0:System.exit(0);
-					break;		
+
+		switch (input) {
+		case 1:
+			mainMenu();
+			break;
+		case 0:
+			System.exit(0);
+			break;
 		}
-}
+	}
 
 	public static void main(String args[]) {
 		Library l = new Library();
-		l.initializeLibrary(l);
-		l.mainMenu(l);
+		l.initializeLibrary();
+		l.mainMenu();
 	}
 }
