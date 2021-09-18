@@ -1,5 +1,8 @@
 package newBookLibrary;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Members {
 	
 	static int mId = 1;
@@ -8,10 +11,13 @@ public class Members {
 	long mob;
 	long adhar;
 	String address;
-	String issuedBooks;
 	
+		List<String>issuedBooks = new ArrayList<String>();
+		List<String>memberIssueBook = new ArrayList<String>();
+		List<String>memberReturnBook = new ArrayList<String>();
+		List<String>memberBookHistory = new ArrayList<String>();
 
-	
+		
 		public Members(String mname,long mob,long adhar,String address)
 		{
 			
