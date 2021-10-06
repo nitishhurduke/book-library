@@ -24,23 +24,24 @@ public class Library {
 	public void addBook(int total) {
 		System.out.println("Add Books");
 		Scanner bin = new Scanner(System.in);
-
+   
 		for (int i = 0; i < total; i++) {
 			Book b = new Book();
 			System.out.print((i + 1) + ". ");
 			b.bname = bin.nextLine();
 			books.add(b);
 			bookList.add(b.bname);
+			
 
 		}
 		System.out.println("Books added Successfully...");
-		System.out.println("Enter '1' to Add more books or '0'to Main Menu");
+		System.out.println("Enter '1' to Add more books or '5'to Main Menu");
 		int input = sc.nextInt();
 		switch (input) {
 		case 1:
 			addBook();
 			break;
-		case 0:
+		case 5:
 			mainMenu();
 			break;
 		}
@@ -62,17 +63,261 @@ public class Library {
 			bookList.add(b.bname);
 		}
 		System.out.println("Books added Successfully...");
-		System.out.println("Enter '1' to Add more books or '0'to Main Menu");
+		System.out.println("Enter '1' to Add more books or '5'to Main Menu");
 		int input = sc.nextInt();
 		switch (input) {
 		case 1:
 			addBook();
 			break;
-		case 0:
+		case 5:
 			mainMenu();
 			break;
 		}
 
+	}
+
+	public void mainMenu() {
+		System.out.println("Choose following operation : ");
+		
+		System.out.println("1.Register New Members");
+		System.out.println("2.Issue Book");
+		System.out.println("3.Return Book");
+		System.out.println("4.Add New Books");
+		System.out.println("5.Show Book Records");
+		System.out.println("6.Show All Registerd Members");
+		System.out.println("7.Delete Books");
+		System.out.println("8.Delete Members");
+		System.out.println("0.Exit");
+	
+		int input = sc.nextInt();
+	
+		switch (input) {
+	
+		case 1:
+			addMembers();
+			break;
+		case 2:
+			issueBook();
+			break;
+		case 3:
+			returnBook();
+			break;
+		case 4:
+			
+			addBook();
+			break;
+		case 5:
+			bookShelf();
+			
+			break;
+		case 6:
+			
+			showMembers();
+			break;
+		case 7:
+			deleteBook();
+			break;
+		case 8:
+			deleteMember();
+			break;
+		case 0:
+			System.exit(0);
+			break;
+		}
+	
+	}
+
+	public void bookShelf() {
+		System.out.println("  *ALL BOOKS RECORD* ");
+		if (books.size() > 0) {
+			int i = 1;
+			for (Book b : books) {
+				System.out.println(i + ". " + b.bname);
+				i++;
+			}
+			System.out.println("Choose a Book from list to get Issue History or Enter '0' to Main Menu");
+			int input = sc.nextInt();
+			if (input == 0) {
+				mainMenu();
+			} else {
+				Book b1 = books.get(input - 1);
+				System.out.println("Book Name : " + b1.bname);
+	
+				if (b1.bookHistory.size() > 0) {
+					for (String s : b1.bookHistory) {
+						System.out.println(s);
+					}
+					System.out.println();
+				}
+				subMenu();
+			}
+		} else {
+			System.out.println("No Books Available to show");
+			System.out.println("Enter '1' to Add Books or '5' to Main Menu");
+			int in = sc.nextInt();
+			switch (in) {
+			case 1:
+				addBook();
+				break;
+			case 5:
+				mainMenu();
+				break;
+			}
+		}
+	
+	}
+
+	public void showMembers() {
+		System.out.println("    *ALL REGISTERED MEMBERS* ");
+		int i = 1;
+		if (membersList.size() > 0) {
+	
+			for (String s : membersList) {
+				System.out.println(i + ". " + s);
+				i++;
+			}
+			System.out.println("Choose from above members to get details ");
+			int inp = sc.nextInt();
+			Members m = members.get(inp - 1);
+			System.out.println("    *MEMBER INFORMATION*  ");
+			System.out.println("Member name : " + m.mname);
+			System.out.println("Member Mobile No. " + m.mob);
+			System.out.println("Member Email Address: " + m.address);
+			System.out.println("Members Aadhaar No. " + m.adhar);
+			
+			if (m.memberIssueBook.size() > 0) {
+				System.out.println("\nBooks Issue History: ");
+				for (String b : m.memberBookHistory) {
+					System.out.println(b);
+				}
+				System.out.println();
+			}
+			subMenu();
+		} else {
+			System.out.println("No Registered Members Available to Show");
+			System.out.println("Enter '1' to Add Members or '5' to Main Menu");
+			int in = sc.nextInt();
+			switch (in) {
+			case 1:
+				addMembers();
+				break;
+			case 5:
+				mainMenu();
+				break;
+			}
+		}
+	}
+
+	public void issueBook() {
+		System.out.println("  *ISSUE BOOK*  ");
+		System.out.print("Please enter book name :");
+		Scanner s = new Scanner(System.in);
+		String bname = s.nextLine();// Taking Book Name
+		int index = bookList.indexOf(bname);// getting Index of book in bookList
+		if (index == -1) {// -1 indicates book is not available
+			System.out.println("Invalid Book");
+			subMenu();
+		} else {
+			Book b = books.get(index);// If book available select book object
+	
+			if (b.issueHistory.size() == b.returnHistory.size()) // Checking if book available or already issued
+			{
+				System.out.println("Book '" + bname + "' available in BookShelf and can be issued..");
+				System.out.print("Enter Issuers Name :");
+				Scanner s1 = new Scanner(System.in);
+				String issuer = s1.nextLine();// Getting Issuers name
+	
+				int index1 = membersList.indexOf(issuer);// Checking if issuer a listed member
+				if (index1 == -1) {// -1 indicates issuer not a member
+					System.out.println("\nNo registered member found with name '" + issuer + "'");
+					System.out.println("\nEnter '1' to Register New Member \n '2' to Continue Issue \n '5' to Main Menu");
+					int in = sc.nextInt();
+					switch (in) {
+					case 1:
+						addMembers();
+						break;
+					case 2:
+						issueBook();
+						break;
+					case 5:
+						mainMenu();
+						break;
+					}
+	
+				} else {
+					Members m = members.get(index1);
+					if(m.memberIssueBook.size() == m.memberReturnBook.size()) {
+					b.issuers.add(m.mname);
+					int idx = b.issuers.indexOf(m.mname);// Getting index of Issuer which will be same for issueHistory
+															// and returnHistory
+					Date currentDate = new Date();
+					String date = DateFormat.getInstance().format(currentDate);
+					m.memberBookHistory.add("On " + date + " issued book '" + b.bname+"' and NOT yet Returned");
+					m.memberIssueBook.add(date);
+					m.issuedBooks.add(bname);
+					b.issueHistory(date);
+					b.bookHistory.add("Issued on " + date + " by '" + b.issuers.get(idx) + "' and NOT yet Returned");
+					System.out.println("book '" + b.bname + "' Successfully issued to '" + b.issuers.get(idx)+"'");
+					}else {
+						System.out.println("\n NOT More than one book allowed to issue...");
+						System.out.println("'"+m.mname+"' already issued a book named '"+m.issuedBooks.get(m.issuedBooks.size() - 1)+"'");
+						
+					}
+				}
+			} else {
+				System.out.println("Book is Already issued and NOT Aailable.");
+				
+			}
+	
+		}
+	
+		subMenu();
+	}
+
+	public void returnBook() {
+		System.out.println("  *RETURN BOOK* ");
+		System.out.print("Please enter book name :");
+		Scanner s = new Scanner(System.in);
+		String bname = s.nextLine();// Taking Book Name
+		int index = bookList.indexOf(bname);// getting Index of book in bookList
+		if (index == -1) {// -1 indicates book is not available
+			System.out.println("Invalid Book");
+			subMenu();
+		} else {
+			Book b = books.get(index);// If book available select book object
+			if (b.issueHistory.size() <= b.returnHistory.size()) { //If issued issueHistroy size > returnHistory
+				System.out.println("Book '" + bname + "' is Already in BookShelf");
+				subMenu();
+			} else {
+				System.out.print("Confirm Issuers Name :");
+				Scanner s1 = new Scanner(System.in);
+				String issuer = s1.nextLine();// Getting Issuers name
+				int indexOfLastIssuer = b.issuers.size() - 1;
+				String lastIssuer = b.issuers.get(indexOfLastIssuer);// Getting Last Issuer of the same Book
+				if (issuer.equals(lastIssuer)) { // Checking if Last Issuer is same as Returning person
+					Date currentDate = new Date();
+					String date = DateFormat.getInstance().format(currentDate);
+					b.returnHistory(date);
+					System.out.println("book '" + b.bname + "' Successfully returned from '" + issuer+"'");
+	
+					int index1 = membersList.indexOf(issuer);// Checking if issuer a listed member
+					Members m = members.get(index1);
+					if (m.mname.equals(issuer)) {
+						if (m.memberReturnBook.size() < m.memberIssueBook.size()) {
+							m.memberBookHistory.remove(m.memberBookHistory.size() - 1);
+							m.memberBookHistory.add("On " + m.memberIssueBook.get(m.memberIssueBook.size()-1) + " issued book '" + b.bname+"' and returned on '"+date+"'");
+							m.memberReturnBook.add(date);
+						}
+					}
+					b.bookHistory.remove(b.bookHistory.size() - 1);
+					b.bookHistory.add("Issued on " + b.issueHistory.get(b.issueHistory.size() - 1) + " by " + issuer
+							+ " and returned on " + date);
+				} else {
+					System.out.println("The Book last Issued by '" + lastIssuer + "' and NOT by '" + issuer+ "' Please check again ");
+				}
+			}
+		}
+		subMenu();
 	}
 
 	public void addMembers() {
@@ -97,253 +342,14 @@ public class Library {
 
 		System.out.println("Member Successfully Added...");
 		System.out.println();
-		System.out.println("Enter '1' to Add another member or '0'to Main Menu");
+		System.out.println("Enter '1' to Add another member or '5'to Main Menu");
 		int input = sc.nextInt();
 		switch (input) {
 		case 1:
 			addMembers();
-			break;
-		case 0:
-
-			mainMenu();
-			break;
-		}
-
-	}
-
-	public void showMembers() {
-		System.out.println("  *ALL REGISTERED MEMBERS* ");
-		int i = 1;
-		if (membersList.size() > 0) {
-
-			for (String s : membersList) {
-				System.out.println(i + ". " + s);
-				i++;
-			}
-			System.out.println("Choose from above members to get details ");
-			int inp = sc.nextInt();
-			Members m = members.get(inp - 1);
-			System.out.println("Member name : " + m.mname);
-			System.out.println("Member Mobile No. " + m.mob);
-			System.out.println("Member Email Address: " + m.address);
-			System.out.println("Members Aadhaar No. " + m.adhar);
-			
-			if (m.memberIssueBook.size() > 0) {
-				System.out.println("\nBooks Issue History: ");
-				for (String b : m.memberBookHistory) {
-					System.out.println(b);
-				}
-				System.out.println();
-			}
-			subMenu();
-		} else {
-			System.out.println("No Registered Members Available to Show");
-			System.out.println("Enter '1' to Add Members or '0' to Main Menu");
-			int in = sc.nextInt();
-			switch (in) {
-			case 1:
-				addMembers();
-				break;
-			case 0:
-				mainMenu();
-				break;
-			}
-		}
-	}
-
-	public void bookShelf() {
-		System.out.println("  *ALL BOOKS RECORD* ");
-		if (books.size() > 0) {
-			int i = 1;
-			for (Book b : books) {
-				System.out.println(i + ". " + b.bname);
-				i++;
-			}
-			System.out.println("Choose a Book from list to get Issue History or Enter '0' to Main Menu");
-			int input = sc.nextInt();
-			if (input == 0) {
-				mainMenu();
-			} else {
-				Book b1 = books.get(input - 1);
-				System.out.println("Book Name : " + b1.bname);
-
-				if (b1.bookHistory.size() > 0) {
-					for (String s : b1.bookHistory) {
-						System.out.println(s);
-					}
-					System.out.println();
-				}
-				subMenu();
-			}
-		} else {
-			System.out.println("No Books Available to show");
-			System.out.println("Enter '1' to Add Books or '0' to Main Menu");
-			int in = sc.nextInt();
-			switch (in) {
-			case 1:
-				addBook();
-				break;
-			case 0:
-				mainMenu();
-				break;
-			}
-		}
-
-	}
-
-	public void issueBook() {
-		System.out.println("  *ISSUE BOOK*  ");
-		System.out.print("Please enter book name :");
-		Scanner s = new Scanner(System.in);
-		String bname = s.nextLine();// Taking Book Name
-		int index = bookList.indexOf(bname);// getting Index of book in bookList
-		if (index == -1) {// -1 indicates book is not available
-			System.out.println("Invalid Book");
-			subMenu();
-		} else {
-			Book b = books.get(index);// If book available select book object
-
-			if (b.issueHistory.size() == b.returnHistory.size()) // Checking if book available or already issued
-			{
-				System.out.println("Book '" + bname + "' available in BookShelf and can be issued..");
-				System.out.print("Enter Issuers Name :");
-				Scanner s1 = new Scanner(System.in);
-				String issuer = s1.nextLine();// Getting Issuers name
-
-				int index1 = membersList.indexOf(issuer);// Checking if issuer a listed member
-				if (index1 == -1) {// -1 indicates issuer not a member
-					System.out.println("\nNo registered member found with name '" + issuer + "'");
-					System.out.println("\nEnter '1' to Register New Member or'2' to Continue Issue '0' to Main Menu");
-					int in = sc.nextInt();
-					switch (in) {
-					case 1:
-						addMembers();
-						break;
-					case 2:
-						issueBook();
-						break;
-					case 0:
-						System.exit(0);
-						break;
-					}
-
-				} else {
-					Members m = members.get(index1);
-					if(m.memberIssueBook.size() == m.memberReturnBook.size()) {
-					b.issuers.add(m.mname);
-					int idx = b.issuers.indexOf(m.mname);// Getting index of Issuer which will be same for issueHistory
-															// and returnHistory
-					Date currentDate = new Date();
-					String date = DateFormat.getInstance().format(currentDate);
-					m.memberBookHistory.add("On " + date + " issued book '" + b.bname+"' and NOT yet Returned");
-					m.memberIssueBook.add(date);
-					m.issuedBooks.add(bname);
-					b.issueHistory(date);
-					b.bookHistory.add("Issued on " + date + " by '" + b.issuers.get(idx) + "' and NOT yet Returned");
-					System.out.println("book '" + b.bname + "' Successfully issued to '" + b.issuers.get(idx)+"'");
-					}else {
-						System.out.println("More than one book are NOT allowed to issue...");
-						System.out.println("'"+m.mname+"' Already issued a book named '"+m.issuedBooks.get(m.issuedBooks.size() - 1)+"'");
-						
-					}
-				}
-			} else {
-				System.out.println("Book is Already issued and NOT Aailable.");
-				
-			}
-
-		}
-
-		subMenu();
-	}
-
-	public void returnBook() {
-		System.out.println("  *RETURN BOOK* ");
-		System.out.print("Please enter book name :");
-		Scanner s = new Scanner(System.in);
-		String bname = s.nextLine();// Taking Book Name
-		int index = bookList.indexOf(bname);// getting Index of book in bookList
-		if (index == -1) {// -1 indicates book is not available
-			System.out.println("Invalid Book");
-			subMenu();
-		} else {
-			Book b = books.get(index);// If book available select book object
-			if (b.issueHistory.size() <= b.returnHistory.size()) {
-				System.out.println("Book '" + bname + "' is Already in BookShelf");
-				subMenu();
-			} else {
-				System.out.print("Confirm Issuers Name :");
-				Scanner s1 = new Scanner(System.in);
-				String issuer = s1.nextLine();// Getting Issuers name
-				String lastIssuer = b.issuers.get(b.issuers.size() - 1);// Getting Last Issuer of the same Book
-				if (issuer.equals(lastIssuer)) { // Checking if Last Issuer is same as Returning person
-					Date currentDate = new Date();
-					String date = DateFormat.getInstance().format(currentDate);
-					b.returnHistory(date);
-					System.out.println("book '" + b.bname + "' Successfully returned from '" + issuer+"'");
-
-					int index1 = membersList.indexOf(issuer);// Checking if issuer a listed member
-					Members m = members.get(index1);
-					if (m.mname.equals(issuer)) {
-						if (m.memberReturnBook.size() < m.memberIssueBook.size()) {
-							m.memberBookHistory.remove(m.memberBookHistory.size() - 1);
-							m.memberBookHistory.add("On " + m.memberIssueBook.get(m.memberIssueBook.size()-1) + " issued book '" + b.bname+"' and returned on '"+date+"'");
-							m.memberReturnBook.add(date);
-						}
-					}
-					b.bookHistory.remove(b.bookHistory.size() - 1);
-					b.bookHistory.add("Issued on " + b.issueHistory.get(b.issueHistory.size() - 1) + " by " + issuer
-							+ " and returned on " + date);
-				} else {
-					System.out.println("The Book last Issued by '" + lastIssuer + "' and NOT by '" + issuer+ "' Please check again ");
-				}
-			}
-		}
-		subMenu();
-	}
-
-	public void mainMenu() {
-		System.out.println("Choose following operation : ");
-		System.out.println("1.Show Book Records");
-		System.out.println("2.Show All Registerd Members");
-		System.out.println("3.Issue Book");
-		System.out.println("4.Return Book");
-		System.out.println("5.Add New Books");
-		System.out.println("6.Register New Members");
-		System.out.println("7.Delete Books");
-		System.out.println("8.Delete Members");
-		System.out.println("0.Exit");
-
-		int input = sc.nextInt();
-
-		switch (input) {
-
-		case 1:
-			bookShelf();
-			break;
-		case 2:
-			showMembers();
-			break;
-		case 3:
-			issueBook();
-			break;
-		case 4:
-			returnBook();
 			break;
 		case 5:
-			addBook();
-			break;
-		case 6:
-			addMembers();
-			break;
-		case 7:
-			deleteBook();
-			break;
-		case 8:
-			deleteMember();
-			break;
-		case 0:
-			System.exit(0);
+			mainMenu();
 			break;
 		}
 
@@ -369,8 +375,9 @@ public class Library {
 					System.out.println("Book '" + bname + "' Deleted Successfuly...");
 
 				} else {
+					System.out.println("\n CAN NOT DELETE ISSUED BOOK");
 					System.out.print("'" + bname + "' " + b.bookHistory.get(b.bookHistory.size() - 1));
-					System.out.println(" and hence can NOT be deleted until it returns to Shelf.");
+					System.out.println(" ,Hence can NOT be deleted until it returns to Shelf.");
 				}
 			}
 		}
@@ -406,11 +413,11 @@ public class Library {
 
 	public void subMenu() {
 
-		System.out.println("\nEnter '1' for 'Main Menu'Or '0' for 'Exit' ");
+		System.out.println("\nEnter '5' for 'Main Menu'Or '0' for 'Exit' ");
 		int input = sc.nextInt();
 
 		switch (input) {
-		case 1:
+		case 5:
 			mainMenu();
 			break;
 		case 0:

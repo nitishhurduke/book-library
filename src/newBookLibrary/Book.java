@@ -9,7 +9,7 @@ public class Book {
 	List<String> issuers = new ArrayList<String>();
 	List<String> issueHistory = new ArrayList<String>();
 	List<String> returnHistory = new ArrayList<String>();
-	List<String> bookHistory = new ArrayList<String>();
+	List<String> bookHistory = new ArrayList<String>();//updates in Library>issueBook() & Library>returnBook()
 	
 	public void issueHistory(String issueHistory)
 	{
